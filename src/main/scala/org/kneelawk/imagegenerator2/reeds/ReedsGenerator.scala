@@ -6,6 +6,7 @@ import java.awt.RenderingHints
 import java.awt.GradientPaint
 import java.awt.Color
 import scala.util.Random
+import scala.collection.Map
 
 object ReedsGenerator extends ImageGenerator {
   val SHAPE = Array((0, 0), (20, 0), (20, 20), (10, 30), (0, 20))
@@ -32,10 +33,14 @@ object ReedsGenerator extends ImageGenerator {
     else if (nval > max) return max
     return nval
   }
+  
+  def options = Array(("sparsity", "Sparsity", "1000"))
 
   def name = "Reeds"
-  def apply(g: Graphics2D, width: Int, height: Int) {
+  def apply(g: Graphics2D, options: Map[String, String], width: Int, height: Int) {
     g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    
+    val sparsity = options("sparsity").toInt
 
     val bg1Hue = rand.nextFloat()
     val bg1Sat = 1f
@@ -50,7 +55,7 @@ object ReedsGenerator extends ImageGenerator {
     g.setPaint(new GradientPaint(width / 2, 0, bg1, width / 2, height, bg2))
     g.fillRect(0, 0, width, height)
 
-    val locs = (0 until (width * height / 1000) map (i => (rfloat(-20, width).toInt, rfloat(-30, height).toInt))).sortWith(_._2 < _._2)
+    val locs = (0 until (width * height / sparsity) map (i => (rfloat(-20, width).toInt, rfloat(-30, height).toInt))).sortWith(_._2 < _._2)
 
     for (loc <- locs) {
       val sbg1Hue = rotate(bg1Hue, if (rand.nextBoolean()) rfloat(0.02f, 0.08f) else rfloat(-0.08f, -0.02f), 0f, 1f)
