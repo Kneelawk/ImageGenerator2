@@ -34,7 +34,7 @@ object ReedsGenerator extends ImageGenerator {
     return nval
   }
   
-  def options = Array(("sparsity", "Sparsity", "1000"))
+  def options = Array(("sparsity", "Sparsity (default 5000)", "1000"))
 
   def name = "Reeds"
   def apply(g: Graphics2D, options: Map[String, String], width: Int, height: Int) {
