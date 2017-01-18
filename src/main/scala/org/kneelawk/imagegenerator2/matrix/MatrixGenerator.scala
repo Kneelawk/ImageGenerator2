@@ -1,17 +1,19 @@
 package org.kneelawk.imagegenerator2.matrix
 
+import java.awt.Color
+import java.awt.Font
 import java.awt.Graphics2D
+import java.awt.RenderingHints
 
 import scala.collection.Map
 
 import org.kneelawk.imagegenerator2.ImageGenerator
-import java.awt.RenderingHints
-import java.awt.Color
-import scala.util.Random
-import java.awt.Font
+import org.kneelawk.imagegenerator2.util.MathUtil
 import org.kneelawk.imagegenerator2.util.StringParsingUtil
 
 object MatrixGenerator extends ImageGenerator {
+  import MathUtil._
+  
   val letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
   val font = "Courier"
   val letterHue = 112f / 360f
@@ -23,9 +25,6 @@ object MatrixGenerator extends ImageGenerator {
   }
   def randChar: String =
     letters.charAt(rand.nextInt(letters.length())).toString()
-
-  val rand = new Random
-  def rfloat(min: Float, max: Float) = rand.nextFloat() * (max - min) + min
 
   def name = "Matrix"
   def options = Array(("sparsity", "Sparsity (default: 5000)"))

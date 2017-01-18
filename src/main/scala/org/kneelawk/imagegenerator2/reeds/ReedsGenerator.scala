@@ -1,39 +1,18 @@
 package org.kneelawk.imagegenerator2.reeds
 
-import org.kneelawk.imagegenerator2.ImageGenerator
+import java.awt.Color
+import java.awt.GradientPaint
 import java.awt.Graphics2D
 import java.awt.RenderingHints
-import java.awt.GradientPaint
-import java.awt.Color
-import scala.util.Random
+
 import scala.collection.Map
+
+import org.kneelawk.imagegenerator2.ImageGenerator
+import org.kneelawk.imagegenerator2.util.MathUtil
 import org.kneelawk.imagegenerator2.util.StringParsingUtil
 
 object ReedsGenerator extends ImageGenerator {
   val SHAPE = Array((0, 0), (20, 0), (20, 20), (10, 30), (0, 20))
-
-  val rand = new Random
-  def rfloat(min: Float, max: Float) = rand.nextFloat() * (max - min) + min
-
-  def rotate(value: Float, amount: Float, min: Float, max: Float): Float = {
-    val size = max - min
-    if (size > 0) {
-      var quot = (value + amount - min) / size
-      quot -= quot.floor
-      return quot * size + min
-    } else if (size == 0) {
-      return min
-    } else {
-      throw new RuntimeException("Invalid rotate range")
-    }
-  }
-
-  def cap(value: Float, amount: Float, min: Float, max: Float): Float = {
-    val nval = value + amount
-    if (nval < min) return min
-    else if (nval > max) return max
-    return nval
-  }
 
   def options = Array(
     ("sparsity", "Sparsity (default 1000)"),
@@ -44,8 +23,9 @@ object ReedsGenerator extends ImageGenerator {
 
   def name = "Reeds"
   def apply(g: Graphics2D, options: Map[String, String], width: Int, height: Int) {
+    import MathUtil._
     import StringParsingUtil._
-    
+
     g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
     val sparsity = parseInt(options("sparsity"), 1000)
