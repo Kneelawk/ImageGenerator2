@@ -40,7 +40,7 @@ object MatrixGenerator extends ImageGenerator {
 
     for (i <- 0 until (width * height / sparsity)) {
       val x = rand.nextInt(width)
-      val y = rand.nextInt(height)
+      val y = rand.nextInt(height + 80)
       val len = rand.nextInt(18) + 4
 
       val fontSize = rand.nextInt(9) + 9
