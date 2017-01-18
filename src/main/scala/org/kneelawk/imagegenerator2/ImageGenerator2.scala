@@ -12,11 +12,13 @@ import javax.imageio.ImageIO
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 import scala.collection.mutable.HashMap
+import org.kneelawk.imagegenerator2.matrix.MatrixGenerator
 
 object ImageGenerator2 {
   def main(args: Array[String]) {
     val registeredGenerators = Map(
-      gen(ReedsGenerator))
+      gen(ReedsGenerator),
+      gen(MatrixGenerator))
 
     while (true) {
       StdIn.readLine() match {
