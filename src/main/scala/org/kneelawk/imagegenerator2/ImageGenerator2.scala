@@ -21,7 +21,8 @@ object ImageGenerator2 {
       gen(MatrixGenerator))
 
     while (true) {
-      StdIn.readLine() match {
+      val command = StdIn.readLine()
+      command match {
         case "generate" => {
           val name = StdIn.readLine("Image batch name: ")
           val genName = StdIn.readLine("Generator name: ")
@@ -69,6 +70,13 @@ object ImageGenerator2 {
           registeredGenerators.keys.foreach { x => println(x) }
         }
         case "quit" => return
+        case _ => {
+          println(s"Unknown command: $command")
+          println("Commands:")
+          println("generate - generates an image")
+          println("list - lists the generators")
+          println("quit - quits the program")
+        }
       }
     }
   }
