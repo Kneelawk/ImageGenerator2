@@ -5,7 +5,7 @@ import scala.collection.Map
 import scala.annotation.Annotation
 
 trait ImageGenerator {
-  def options: Seq[(String, String, String)]
+  def options: Seq[(String, String)]
   def name: String
   def apply(g: Graphics2D, options: Map[String, String], width: Int, height: Int)
 }

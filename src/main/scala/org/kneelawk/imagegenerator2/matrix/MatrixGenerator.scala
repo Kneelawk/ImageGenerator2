@@ -9,6 +9,7 @@ import java.awt.RenderingHints
 import java.awt.Color
 import scala.util.Random
 import java.awt.Font
+import org.kneelawk.imagegenerator2.util.StringParsingUtil
 
 object MatrixGenerator extends ImageGenerator {
   val letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
@@ -27,10 +28,11 @@ object MatrixGenerator extends ImageGenerator {
   def rfloat(min: Float, max: Float) = rand.nextFloat() * (max - min) + min
 
   def name = "Matrix"
-  def options = Array(("sparsity", "Sparsity (default: 5000)", "5000"))
+  def options = Array(("sparsity", "Sparsity (default: 5000)"))
 
   def apply(g: Graphics2D, options: Map[String, String], width: Int, height: Int) {
-    val sparsity = options("sparsity").toInt
+    import StringParsingUtil.parseInt
+    val sparsity = parseInt(options("sparsity"), 5000)
 
     g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON)
     g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
@@ -51,7 +53,7 @@ object MatrixGenerator extends ImageGenerator {
 
       g.drawString(randChar, x, y)
       var strLoc = y - fontHeight
-      
+
       g.setFont(new Font(font, Font.PLAIN, fontSize))
       fontHeight = g.getFontMetrics.getHeight
 

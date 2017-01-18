@@ -35,8 +35,7 @@ object ImageGenerator2 {
 
             val opts = new HashMap[String, String]
             for (opt <- gen.options) {
-              val read = StdIn.readLine(opt._2 + ": ")
-              opts += opt._1 -> (if ("" == read || null == read) opt._3 else read)
+              opts += opt._1 -> StdIn.readLine(opt._2 + ": ")
             }
 
             val outDir = new File("output", name)

@@ -7,10 +7,11 @@ import java.awt.GradientPaint
 import java.awt.Color
 import scala.util.Random
 import scala.collection.Map
+import org.kneelawk.imagegenerator2.util.StringParsingUtil
 
 object ReedsGenerator extends ImageGenerator {
   val SHAPE = Array((0, 0), (20, 0), (20, 20), (10, 30), (0, 20))
-  
+
   val rand = new Random
   def rfloat(min: Float, max: Float) = rand.nextFloat() * (max - min) + min
 
@@ -33,23 +34,30 @@ object ReedsGenerator extends ImageGenerator {
     else if (nval > max) return max
     return nval
   }
-  
-  def options = Array(("sparsity", "Sparsity (default 5000)", "1000"))
+
+  def options = Array(
+    ("sparsity", "Sparsity (default 1000)"),
+    ("topHue", "Top Hue (default random)"),
+    ("topBri", "Top Brightness (default random)"),
+    ("bottomHue", "Bottom Hye (default random)"),
+    ("bottomBri", "Bottom Brightness (default random)"))
 
   def name = "Reeds"
   def apply(g: Graphics2D, options: Map[String, String], width: Int, height: Int) {
-    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    import StringParsingUtil._
     
-    val sparsity = options("sparsity").toInt
+    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-    val bg1Hue = rand.nextFloat()
+    val sparsity = parseInt(options("sparsity"), 1000)
+
+    val bg1Hue = parseFloat(options("topHue"), rand.nextFloat())
     val bg1Sat = 1f
-    val bg1Bri = rfloat(0.6f, 1f)
+    val bg1Bri = parseFloat(options("topBri"), rfloat(0.6f, 1f))
     val bg1 = Color.getHSBColor(bg1Hue, bg1Sat, bg1Bri)
 
-    val bg2Hue = rotate(bg1Hue, if (rand.nextBoolean()) rfloat(0.15f, 0.25f) else rfloat(-0.25f, -0.15f), 0f, 1f)
+    val bg2Hue = parseFloat(options("bottomHue"), rotate(bg1Hue, if (rand.nextBoolean()) rfloat(0.15f, 0.25f) else rfloat(-0.25f, -0.15f), 0f, 1f))
     val bg2Sat = bg1Sat
-    val bg2Bri = cap(bg1Bri, rfloat(-0.2f, 0.2f), 0f, 1f)
+    val bg2Bri = parseFloat(options("bottomBri"), cap(bg1Bri, rfloat(-0.2f, 0.2f), 0f, 1f))
     val bg2 = Color.getHSBColor(bg2Hue, bg2Sat, bg2Bri)
 
     g.setPaint(new GradientPaint(width / 2, 0, bg1, width / 2, height, bg2))
