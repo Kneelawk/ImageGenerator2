@@ -9,10 +9,11 @@ import org.kneelawk.imagegenerator2.ImageGenerator
 import org.kneelawk.imagegenerator2.util.StringParsingUtil
 import java.awt.Color
 import org.kneelawk.imagegenerator2.util.MathUtil
+import org.kneelawk.imagegenerator2.util.HSBColor
 
 object GlowGrid extends ImageGenerator {
-  val hueOffset = 0.06f
-  val briOffset = 0.04f
+  val hueOffset = 0.04f
+  val briOffset = 0.06f
 
   def name = "GlowGrid"
   def options = Array(
@@ -31,24 +32,43 @@ object GlowGrid extends ImageGenerator {
     val gridWidth = math.ceil(width.toDouble / size.toDouble).toInt
     val gridHeight = math.ceil(height.toDouble / size.toDouble).toInt
 
-    val grid = Array.ofDim[Color](gridHeight, gridWidth)
+    val grid = Array.ofDim[HSBColor](gridHeight, gridWidth)
 
     def drawSquare(x: Int, y: Int, hue: Float, bri: Float) {
-      val c = Color.getHSBColor(hue, 1f, bri)
+      val c = new HSBColor(hue, 1f, bri)
       grid(y)(x) = c
-      g.setColor(c)
+      g.setColor(c.toColor)
       g.fillRect(x * size, y * size, size, size)
       g.setColor(Color.getHSBColor(hue, 1f, cap(bri, -0.05f, 0f, 1f)))
       g.drawRect(x * size, y * size, size, size)
     }
 
-    val sHue = rotate(hue, rand.nextFloat() * hueOffset, 0f, 1f)
-    val sBri = cap(bri, rand.nextFloat() * briOffset, 0f, 1f)
+    val sHue = rotate(hue, rand.nextFloat() * hueOffset - hueOffset / 2, 0f, 1f)
+    val sBri = cap(bri, rand.nextFloat() * briOffset - briOffset / 2, 0f, 1f)
     drawSquare(0, 0, sHue, sBri)
 
     for (i <- 1 until gridWidth) {
-      // TODO: finish GlowGrid generator
-      //      val nHue = rotate(
+      val nHue = rotate(grid(0)(i - 1).hue, rand.nextFloat() * hueOffset - hueOffset / 2, 0f, 1f)
+      val nBri = cap(grid(0)(i - 1).bri, rand.nextFloat() * briOffset - briOffset / 2, 0f, 1f)
+      drawSquare(i, 0, nHue, nBri)
+    }
+
+    for (y <- 1 until gridHeight) {
+      for (x <- 0 until gridWidth) {
+        val nHue = rotate(
+          average(
+            grid(y - 1)(rotate(x, -1, 0, gridWidth)).hue,
+            grid(y - 1)(x).hue,
+            grid(y - 1)(rotate(x, 1, 0, gridWidth)).hue),
+          rand.nextFloat() * hueOffset - hueOffset / 2, 0f, 1f)
+        val nBri = cap(
+          average(
+            grid(y - 1)(rotate(x, -1, 0, gridWidth)).bri,
+            grid(y - 1)(x).bri,
+            grid(y - 1)(rotate(x, 1, 0, gridWidth)).bri),
+          rand.nextFloat() * briOffset - briOffset / 2, 0f, 1f)
+        drawSquare(x, y, nHue, nBri)
+      }
     }
   }
 }
