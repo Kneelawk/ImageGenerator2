@@ -69,4 +69,11 @@ object MathUtil {
     }
     return v / floats.length
   }
+  
+  def circularMean(min: Float, max: Float, floats: Float*): Float = {
+    val size = max - min
+    val x = floats.map(f => Math.cos((f - min) * Math.PI * 2 / size).toFloat).sum / floats.length
+    val y = floats.map(f => Math.sin((f - min) * Math.PI * 2 / size).toFloat).sum / floats.length
+    return (Math.atan2(y, x) * size / (Math.PI * 2) + min).toFloat
+  }
 }
