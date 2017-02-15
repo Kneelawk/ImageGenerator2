@@ -40,7 +40,7 @@ object GlowGrid extends ImageGenerator {
       g.setColor(c.toColor)
       g.fillRect(x * size, y * size, size, size)
       g.setColor(Color.getHSBColor(hue, 1f, cap(bri, -0.1f, 0f, 1f)))
-      g.drawRoundRect(x * size + 2, y * size + 2, size - 5, size - 5, 2, 2)
+      g.drawRoundRect(x * size + 2, y * size + 2, size - 5, size - 5, size / 10, size / 10)
     }
 
     val sHue = rotate(hue, rand.nextFloat() * hueOffset - hueOffset / 2, 0f, 1f)
