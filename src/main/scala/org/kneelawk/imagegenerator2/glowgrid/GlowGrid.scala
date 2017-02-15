@@ -25,7 +25,7 @@ object GlowGrid extends ImageGenerator {
     import StringParsingUtil._
     import MathUtil._
 
-    val size = parseInt(options("size"), 20)
+    val size = Math.max(parseInt(options("size"), 20), 5)
     val hue = parseFloat(options("hue"), rand.nextFloat())
     val bri = parseFloat(options("bri"), rfloat(0.5f, 1f))
 
@@ -39,8 +39,8 @@ object GlowGrid extends ImageGenerator {
       grid(y)(x) = c
       g.setColor(c.toColor)
       g.fillRect(x * size, y * size, size, size)
-      g.setColor(Color.getHSBColor(hue, 1f, cap(bri, -0.05f, 0f, 1f)))
-      g.drawRect(x * size, y * size, size, size)
+      g.setColor(Color.getHSBColor(hue, 1f, cap(bri, -0.1f, 0f, 1f)))
+      g.drawRoundRect(x * size + 2, y * size + 2, size - 5, size - 5, 2, 2)
     }
 
     val sHue = rotate(hue, rand.nextFloat() * hueOffset - hueOffset / 2, 0f, 1f)
@@ -56,7 +56,7 @@ object GlowGrid extends ImageGenerator {
     for (y <- 1 until gridHeight) {
       for (x <- 0 until gridWidth) {
         val nHue = rotate(
-          average(
+          circularMean(0, 1,
             grid(y - 1)(rotate(x, -1, 0, gridWidth)).hue,
             grid(y - 1)(x).hue,
             grid(y - 1)(rotate(x, 1, 0, gridWidth)).hue),
