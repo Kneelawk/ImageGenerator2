@@ -12,10 +12,11 @@ import org.kneelawk.imagegenerator2.util.MathUtil
 import org.kneelawk.imagegenerator2.util.StringParsingUtil
 
 object ReedsGenerator extends ImageGenerator {
-  val SHAPE = Array((0, 0), (20, 0), (20, 20), (10, 30), (0, 20))
+  val SHAPE = Array((0, 0), (2, 0), (2, 2), (1, 3), (0, 2))
 
   def options = Array(
     ("sparsity", "Sparsity (default 1000)"),
+    ("leafScale", "Leaf Scale (default 10)"),
     ("topHue", "Top Hue (default random)"),
     ("topBri", "Top Brightness (default random)"),
     ("bottomHue", "Bottom Hye (default random)"),
@@ -23,12 +24,15 @@ object ReedsGenerator extends ImageGenerator {
 
   def name = "Reeds"
   def apply(g: Graphics2D, options: Map[String, String], width: Int, height: Int) {
+    import Math._
     import MathUtil._
     import StringParsingUtil._
 
     g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
     val sparsity = parseInt(options("sparsity"), 1000)
+    
+    val leafScale = parseInt(options("leafScale"), 10)
 
     val bg1Hue = parseFloat(options("topHue"), rand.nextFloat())
     val bg1Sat = 1f
@@ -61,8 +65,8 @@ object ReedsGenerator extends ImageGenerator {
       val x = loc._1
       val y = loc._2
 
-      g.fillPolygon(SHAPE.map(_._1 + x), SHAPE.map(_._2 + y), SHAPE.length)
-      g.fillRect(x + 9, y + 28, 2, height - (y + 28))
+      g.fillPolygon(SHAPE.map(_._1 * leafScale + x), SHAPE.map(_._2 * leafScale + y), SHAPE.length)
+      g.fillRect(x + max(leafScale - 1, 0), y + max(leafScale - 2, 0), 2, height - y)
     }
   }
 }
