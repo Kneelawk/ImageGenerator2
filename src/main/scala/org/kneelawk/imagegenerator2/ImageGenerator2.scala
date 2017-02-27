@@ -14,13 +14,15 @@ import scala.concurrent.duration.Duration
 import scala.collection.mutable.HashMap
 import org.kneelawk.imagegenerator2.matrix.MatrixGenerator
 import org.kneelawk.imagegenerator2.glowgrid.GlowGrid
+import org.kneelawk.imagegenerator2.glowgrid2.GlowGrid2
 
 object ImageGenerator2 {
   def main(args: Array[String]) {
     val registeredGenerators = Map(
       gen(ReedsGenerator),
       gen(MatrixGenerator),
-      gen(GlowGrid))
+      gen(GlowGrid),
+      gen(GlowGrid2))
 
     while (true) {
       val command = StdIn.readLine()
