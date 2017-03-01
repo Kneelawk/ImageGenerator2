@@ -10,10 +10,11 @@ import scala.collection.Map
 import org.kneelawk.imagegenerator2.ImageGenerator
 import org.kneelawk.imagegenerator2.util.MathUtil
 import org.kneelawk.imagegenerator2.util.StringParsingUtil
+import java.awt.image.BufferedImage
 
 object MatrixGenerator extends ImageGenerator {
   import MathUtil._
-  
+
   val letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
   val font = "Courier"
   val letterHue = 112f / 360f
@@ -29,7 +30,8 @@ object MatrixGenerator extends ImageGenerator {
   def name = "Matrix"
   def options = Array(("sparsity", "Sparsity (default: 5000)"))
 
-  def apply(g: Graphics2D, options: Map[String, String], width: Int, height: Int) {
+  def apply(i: BufferedImage, options: Map[String, String], width: Int, height: Int) {
+    val g = i.createGraphics()
     import StringParsingUtil.parseInt
     val sparsity = parseInt(options("sparsity"), 5000)
 

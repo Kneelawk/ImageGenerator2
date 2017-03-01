@@ -10,6 +10,7 @@ import org.kneelawk.imagegenerator2.util.StringParsingUtil
 import java.awt.Color
 import org.kneelawk.imagegenerator2.util.MathUtil
 import org.kneelawk.imagegenerator2.util.HSBColor
+import java.awt.image.BufferedImage
 
 object GlowGrid2 extends ImageGenerator {
   val hueOffset = 0.04f
@@ -21,7 +22,8 @@ object GlowGrid2 extends ImageGenerator {
     ("hue", "Hue (default random)"),
     ("bri", "Brightness (default random)"))
 
-  def apply(g: Graphics2D, options: Map[String, String], width: Int, height: Int) {
+  def apply(i: BufferedImage, options: Map[String, String], width: Int, height: Int) {
+    val g = i.createGraphics()
     import StringParsingUtil._
     import MathUtil._
 

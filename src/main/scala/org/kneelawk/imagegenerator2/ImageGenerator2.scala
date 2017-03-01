@@ -50,9 +50,8 @@ object ImageGenerator2 {
 
             val tasks = for (i <- 0 until number) yield Future {
               val image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
-              val g = image.createGraphics()
 
-              gen(g, opts, width, height)
+              gen(image, opts, width, height)
 
               ImageIO.write(image, "png", new File(outDir, f"out${offset + i}%04d.png"))
 

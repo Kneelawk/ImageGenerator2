@@ -10,6 +10,7 @@ import scala.collection.Map
 import org.kneelawk.imagegenerator2.ImageGenerator
 import org.kneelawk.imagegenerator2.util.MathUtil
 import org.kneelawk.imagegenerator2.util.StringParsingUtil
+import java.awt.image.BufferedImage
 
 object ReedsGenerator extends ImageGenerator {
   val SHAPE = Array((0, 0), (2, 0), (2, 2), (1, 3), (0, 2))
@@ -23,7 +24,8 @@ object ReedsGenerator extends ImageGenerator {
     ("bottomBri", "Bottom Brightness (default random)"))
 
   def name = "Reeds"
-  def apply(g: Graphics2D, options: Map[String, String], width: Int, height: Int) {
+  def apply(i: BufferedImage, options: Map[String, String], width: Int, height: Int) {
+    val g = i.createGraphics()
     import Math._
     import MathUtil._
     import StringParsingUtil._
@@ -31,7 +33,7 @@ object ReedsGenerator extends ImageGenerator {
     g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
     val sparsity = parseInt(options("sparsity"), 1000)
-    
+
     val leafScale = parseInt(options("leafScale"), 10)
 
     val bg1Hue = parseFloat(options("topHue"), rand.nextFloat())
