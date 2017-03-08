@@ -3,18 +3,20 @@ package org.kneelawk.imagegenerator2
 import java.awt.image.BufferedImage
 import java.io.File
 
+import scala.collection.mutable.HashMap
+import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.concurrent.duration.Duration
 import scala.io.StdIn
 
-import org.kneelawk.imagegenerator2.reeds.ReedsGenerator
-import javax.imageio.ImageIO
-import scala.concurrent.Await
-import scala.concurrent.duration.Duration
-import scala.collection.mutable.HashMap
-import org.kneelawk.imagegenerator2.matrix.MatrixGenerator
+import org.kneelawk.imagegenerator2.driftingyarn.DriftingYarn
 import org.kneelawk.imagegenerator2.glowgrid.GlowGrid
 import org.kneelawk.imagegenerator2.glowgrid2.GlowGrid2
+import org.kneelawk.imagegenerator2.matrix.MatrixGenerator
+import org.kneelawk.imagegenerator2.reeds.ReedsGenerator
+
+import javax.imageio.ImageIO
 
 object ImageGenerator2 {
   def main(args: Array[String]) {
@@ -22,7 +24,8 @@ object ImageGenerator2 {
       gen(ReedsGenerator),
       gen(MatrixGenerator),
       gen(GlowGrid),
-      gen(GlowGrid2))
+      gen(GlowGrid2),
+      gen(DriftingYarn))
 
     while (true) {
       val command = StdIn.readLine()

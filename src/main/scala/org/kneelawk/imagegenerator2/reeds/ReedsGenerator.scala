@@ -2,15 +2,12 @@ package org.kneelawk.imagegenerator2.reeds
 
 import java.awt.Color
 import java.awt.GradientPaint
-import java.awt.Graphics2D
 import java.awt.RenderingHints
+import java.awt.image.BufferedImage
 
 import scala.collection.Map
 
 import org.kneelawk.imagegenerator2.ImageGenerator
-import org.kneelawk.imagegenerator2.util.MathUtil
-import org.kneelawk.imagegenerator2.util.StringParsingUtil
-import java.awt.image.BufferedImage
 
 object ReedsGenerator extends ImageGenerator {
   val SHAPE = Array((0, 0), (2, 0), (2, 2), (1, 3), (0, 2))
@@ -27,8 +24,8 @@ object ReedsGenerator extends ImageGenerator {
   def apply(i: BufferedImage, options: Map[String, String], width: Int, height: Int) {
     val g = i.createGraphics()
     import Math._
-    import MathUtil._
-    import StringParsingUtil._
+    import org.kneelawk.imagegenerator2.util.MathUtil._
+    import org.kneelawk.imagegenerator2.util.StringParsingUtil._
 
     g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
