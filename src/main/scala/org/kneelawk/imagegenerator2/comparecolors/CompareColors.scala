@@ -1,4 +1,4 @@
-package org.kneelawk.imagegenerator2.compareColors
+package org.kneelawk.imagegenerator2.comparecolors
 
 import java.awt.image.BufferedImage
 
