@@ -10,6 +10,7 @@ import scala.concurrent.Future
 import scala.concurrent.duration.Duration
 import scala.io.StdIn
 
+import org.kneelawk.imagegenerator2.compareColors.CompareColors
 import org.kneelawk.imagegenerator2.driftingyarn.DriftingYarn
 import org.kneelawk.imagegenerator2.glowgrid.GlowGrid
 import org.kneelawk.imagegenerator2.glowgrid2.GlowGrid2
@@ -25,7 +26,8 @@ object ImageGenerator2 {
       gen(MatrixGenerator),
       gen(GlowGrid),
       gen(GlowGrid2),
-      gen(DriftingYarn))
+      gen(DriftingYarn),
+      gen(CompareColors))
 
     while (true) {
       val command = StdIn.readLine()

@@ -44,6 +44,19 @@ object MathUtil {
       throw new RuntimeException("Invalid mod2 range")
     }
   }
+  
+  def mod2(value: Int, min: Int, max: Int): Int = {
+    val size = max - min
+    if (size > 0) {
+      var quot = (value.toDouble - min.toDouble) / size.toDouble
+      quot -= quot.floor
+      return (quot * size + min).toInt
+    } else if (size == 0) {
+      return min
+    } else {
+      throw new RuntimeException("Invalid rotate range")
+    }
+  }
 
   def cap(value: Float, amount: Float, min: Float, max: Float): Float = {
     val nval = value + amount
